@@ -126,6 +126,10 @@
 
     observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
+        if (mutation.type === "characterData") {
+          scan(mutation.target);
+          continue;
+        }
         for (const node of mutation.addedNodes) {
           scan(node);
         }
@@ -135,6 +139,7 @@
     observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
+      characterData: true,
     });
   }
 
